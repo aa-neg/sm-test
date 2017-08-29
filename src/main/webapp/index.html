@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="emailSender">
+
+<head>
+    <title>Email sender</title>
+    <link rel="stylesheet" type="text/css" href="css/spinner.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.0.0/dist/vue-multiselect.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" media="screen" charset="utf-8">
+</head>
+
+<body>
+    <div class="container">
+        <!-- <div id="app"></div> -->
+        <div id="app">
+            <form @submit.prevent="validateBeforeSubmit">
+
+                <h3>Email sender</h3>
+                <div class="form-group" :class="{'has-error': errorStates.to }">
+                    <label class="control-label">To:</label>
+                    <multiselect v-model="to" tag-placeholder="Enter an email address" placeholder="To addresses" label="email" track-by="code"
+                        :options="mailOptions" :multiple="true" :taggable="true" @tag="setTo"></multiselect>
+                </div>
+                <div class="form-group" :class="{'has-error': errorStates.cc }">
+                    <label class="control-label">Cc:</label>
+                    <multiselect v-model="cc" tag-placeholder="Enter an email address" placeholder="Cc addresses" label="email" track-by="code"
+                        :options="mailOptions" :multiple="true" :taggable="true" @tag="setCc"></multiselect>
+                </div>
+                <div class="form-group" :class="{'has-error': errorStates.bcc }">
+                    <label class="control-label">Bcc:</label>
+                    <multiselect v-model="bcc" tag-placeholder="Enter an email address" placeholder="Bcc addresses" label="email" track-by="code"
+                        :options="mailOptions" :multiple="true" :taggable="true" @tag="setBcc"></multiselect>
+                </div>
+                <div class="form-group" :class="{'has-error': errors.has('from') }">
+                    <label class="control-label" for="from">From:</label>
+                    <input v-model="from" v-validate.initial="from" data-rules="required|email" class="form-control" type="email" placeholder="From">
+                    <p class="text-danger" v-if="errors.has('from')">{{ errors.first('from') }}</p>
+                </div>
+                <div class="form-group" :class="{'has-error': errors.has('subject') }">
+                    <label class="control-label" for="subject">Subject:</label>
+                    <input v-model="subject" v-validate.initial="subject" data-rules="required" class="form-control" type="text" placeholder="Website">
+                    <p class="text-danger" v-if="errors.has('subject')">{{ errors.first('subject') }}</p>
+                </div>
+                <div class="form-group" :class="{'has-error': errors.has('text') }">
+                    <label class="control-label" for="text">Body:</label>
+                    <textarea v-model="text" v-validate.initial="text" data-rules="required" class="form-control" type="text" placeholder="Text body"></textarea>
+                    <p class="text-danger" v-if="errors.has('text')">{{ errors.first('text') }}</p>
+                </div>
+
+                <button class="btn btn-primary btn-block" :disabled="sending" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Library things -->
+
+    <!-- main app -->
+    <script type="text/javascript" src="js/build.js"></script>
+</body>
+
+</html>

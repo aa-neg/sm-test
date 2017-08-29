@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            url "http://repo.maven.org/maven2/"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.4.RELEASE")
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+        classpath("io.franzbecker:gradle-lombok:1.10")
+        classpath("com.mashape.unirest:unirest-java:1.4.9")
+        classpath("cz.jirutka.validator:validator-collection:2.2.0")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: "io.franzbecker.gradle-lombok"
+
+jar {
+    baseName = 'siteminder-test'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+    maven {
+        url "http://repo.maven.org/maven2/"
+    }
+    jcenter() 
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile("cz.jirutka.validator:validator-collection:2.2.0")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("com.mashape.unirest:unirest-java:1.4.9")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.mockito:mockito-core:2.+")
+}

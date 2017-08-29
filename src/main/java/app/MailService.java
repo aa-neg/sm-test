@@ -38,13 +38,10 @@ public class MailService {
         try {
 
             HttpResponse<JsonNode> jsonNode = Unirest.post(mailGunBaseUrl).basicAuth("api", mailGunKey)
-                    .field("from", request.getFrom().getEmail()).field("to", request.convertEmailList(request.getTo()))
-                    .field("cc", request.convertEmailList(request.getCc()))
-                    .field("bcc", request.convertEmailList(request.getBcc()))
-                    .field("subject", request.getSubject())
-                    .field("text", request.getText()).asJson();
+                    .fields(request.generateMailGunFields()).asJson();
 
             int statusCode = jsonNode.getStatus();
+            log.error("mailgun response: {}", jsonNode.getBody().toString());
             if (statusCode == 200 || statusCode == 202) {
                 log.info("Successfully sent mail via mailGun details: {}", request);
                 return true;

@@ -2,7 +2,9 @@ package model;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -55,10 +57,10 @@ public class MailRequest {
     public List<SendGridPersonalizations> personalizations;
     public List<SendGridContent> content;
 
-    public List<String> convertEmailList(List<Email> emailList) {
+    public String convertEmailList(List<Email> emailList) {
         return emailList.stream().map((email) -> {
             return email.getEmail();
-        }).collect(Collectors.toList());
+        }).collect(Collectors.joining(","));
     }
 
     public void generatePersonalizations() {
@@ -74,5 +76,20 @@ public class MailRequest {
         personalization.setSubject(this.subject);
         this.personalizations = Arrays.asList(personalization);
         this.content = Arrays.asList(new SendGridContent(this.text));
+    }
+
+    public Map<String, Object> generateMailGunFields() {
+        Map<String, Object> fields = new HashMap<>();
+        if (this.cc.size() > 0) {
+            fields.put("cc", this.convertEmailList(this.cc));
+        }
+        if (this.bcc.size() > 0) {
+            fields.put("bcc", this.convertEmailList(this.bcc));
+        }
+        fields.put("to", this.convertEmailList(this.to));
+        fields.put("subject", this.subject);
+        fields.put("text", this.text);
+        fields.put("from", this.from.getEmail());
+        return fields;
     }
 }

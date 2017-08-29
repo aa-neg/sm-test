@@ -27,7 +27,12 @@ public class EndpointController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/sendMail")
-    public boolean sendMail(@Valid @RequestBody MailRequest request) {
-        return mailService.sendMail(request);
+    public boolean sendMail(@Valid @RequestBody MailRequest request, HttpServletResponse response) {
+        if (!mailService.sendMail(request)) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return false;
+        }
+
+        return true;
     }
 }

@@ -16,17 +16,17 @@
             <form @submit.prevent="validateBeforeSubmit">
 
                 <h3>Email sender</h3>
-                <div class="form-group" :class="{'has-error': errorStates.to }">
+                <div class="form-group">
                     <label class="control-label">To:</label>
                     <multiselect v-model="to" tag-placeholder="Enter an email address" placeholder="To addresses" label="email" track-by="code"
                         :options="mailOptions" :multiple="true" :taggable="true" @tag="setTo"></multiselect>
                 </div>
-                <div class="form-group" :class="{'has-error': errorStates.cc }">
+                <div class="form-group">
                     <label class="control-label">Cc:</label>
                     <multiselect v-model="cc" tag-placeholder="Enter an email address" placeholder="Cc addresses" label="email" track-by="code"
                         :options="mailOptions" :multiple="true" :taggable="true" @tag="setCc"></multiselect>
                 </div>
-                <div class="form-group" :class="{'has-error': errorStates.bcc }">
+                <div class="form-group">
                     <label class="control-label">Bcc:</label>
                     <multiselect v-model="bcc" tag-placeholder="Enter an email address" placeholder="Bcc addresses" label="email" track-by="code"
                         :options="mailOptions" :multiple="true" :taggable="true" @tag="setBcc"></multiselect>

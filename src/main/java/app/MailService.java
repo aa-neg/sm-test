@@ -40,7 +40,8 @@ public class MailService {
             HttpResponse<JsonNode> jsonNode = Unirest.post(mailGunBaseUrl).basicAuth("api", mailGunKey)
                     .field("from", request.getFrom().getEmail()).field("to", request.convertEmailList(request.getTo()))
                     .field("cc", request.convertEmailList(request.getCc()))
-                    .field("bcc", request.convertEmailList(request.getBcc())).field("subject", request.getSubject())
+                    .field("bcc", request.convertEmailList(request.getBcc()))
+                    .field("subject", request.getSubject())
                     .field("text", request.getText()).asJson();
 
             int statusCode = jsonNode.getStatus();
@@ -63,7 +64,6 @@ public class MailService {
         try {
             ObjectWriter objectWriter = new ObjectMapper().writer();
             jsonPayload = objectWriter.writeValueAsString(request);
-            log.info("our json: {}", jsonPayload);
         } catch (JsonProcessingException err) {
             log.error("Failed to serialize sendGrid request into json: {}", err);
         }

@@ -45,9 +45,11 @@ new Vue({
       this.addEmail(email, "bcc");
     },
 
+    //Unable to have same email in to, cc and bcc
     containsSameEmails() {
       let totalEmails = this.to.concat(this.cc).concat(this.bcc);
       let emailAddresses = totalEmails.map(email => email.email);
+
       return emailAddresses.some(function(email, idx) {
         return emailAddresses.indexOf(email) != idx;
       });
@@ -60,9 +62,12 @@ new Vue({
         });
         return false;
       } else if (this.containsSameEmails()) {
+        Vue.toast("Unable to have same address in to, cc or bcc.", {
+          ...defaultToastSettings
+        });
         return false;
       } else {
-        return false;
+        return true;
       }
     },
 
@@ -86,12 +91,11 @@ new Vue({
           ...defaultToastSettings
         });
       } else {
-        this.errorStates[component] = true;
+        this.errorStates[component] = false;
         const emailEntry = {
           email: email,
           code: email.substring(0, 2) + Math.floor(Math.random() * 10000000)
         };
-        this.mailOptions.push(emailEntry);
         this[component].push(emailEntry);
       }
     },
@@ -128,7 +132,7 @@ new Vue({
     },
     validateBeforeSubmit(e) {
       this.$validator.validateAll();
-      if (!this.errors.any() && !this.validEmailSelects()) {
+      if (!this.errors.any() && this.validEmailSelects()) {
         this.sendMail();
       }
     }

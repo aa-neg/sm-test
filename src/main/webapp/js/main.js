@@ -112,7 +112,7 @@ new Vue({
             Vue.toast("Successfully sent mail!", {
               ...defaultToastSettings,
               className: "et-info",
-              duration: 3000
+              duration: 5000
             });
           } else {
             Vue.toast("Sorry we were unable to process your request", {

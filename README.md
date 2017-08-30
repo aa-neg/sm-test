@@ -22,3 +22,5 @@ npm install && npm run build
 TODO
 
 * frontend tests
+* java web security
+* Cleaning front-end into components

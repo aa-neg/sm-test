@@ -63,6 +63,7 @@ public class MailService {
             jsonPayload = objectWriter.writeValueAsString(request);
         } catch (JsonProcessingException err) {
             log.error("Failed to serialize sendGrid request into json: {}", err);
+            return false;
         }
 
         try {

@@ -54,8 +54,8 @@ public class MailRequest {
     @Valid
     public Email from;
 
-    public List<SendGridPersonalizations> personalizations;
-    public List<SendGridContent> content;
+    private List<SendGridPersonalizations> personalizations;
+    private List<SendGridContent> content;
 
     public String convertEmailList(List<Email> emailList) {
         return emailList.stream().map((email) -> {
